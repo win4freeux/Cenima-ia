@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CINEMA AI</title>
+<meta name="description" content="CINEMA AI - أفلام ومسلسلات أصلية من إنتاج الذكاء الاصطناعي">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#000; --panel:#0d0d0f; --red:#e50914; --gold:#f5c04a; --text:#f3f3f3; --muted:#a8a8ad;
+  --card-w:clamp(210px,62vw,290px);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Cairo',system-ui,sans-serif;overflow-x:hidden;min-height:100vh}
+a{color:inherit;text-decoration:none}
+img{display:block}
+
+/* ---------- Header ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 5vw;background:linear-gradient(180deg,rgba(0,0,0,.92),rgba(0,0,0,0))}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,5vw,36px);letter-spacing:3px;color:var(--red)}
+.logo span{color:#fff}
+nav{display:flex;gap:20px;font-size:14px;font-weight:700}
+nav a{color:#ddd}
+nav a:hover{color:#fff}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;display:flex;align-items:center;padding:96px 5vw 50px;overflow:hidden}
+.hero .bg{position:absolute;inset:-40px;background-size:cover;background-position:center;filter:blur(30px) brightness(.42) saturate(1.1)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#000 2%,rgba(0,0,0,0) 40%)}
+.hero-inner{position:relative;z-index:2;width:100%;max-width:1100px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:26px}
+.hero .poster{order:0;width:auto;max-width:100%;max-height:52vh;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.75)}
+.hero .content{order:1;max-width:560px;width:100%}
+@media(min-width:820px){
+  .hero{min-height:80vh}
+  .hero-inner{flex-direction:row;justify-content:space-between;gap:50px}
+  .hero .content{order:0;flex:1}
+  .hero .poster{order:1;max-height:62vh}
+}
+.badge{display:inline-block;font-size:12px;font-weight:700;letter-spacing:2px;color:var(--gold);margin-bottom:10px}
+.hero h1{font-size:clamp(34px,8vw,64px);font-weight:900;line-height:1.15;margin-bottom:10px}
+.hero p{color:#d6d6d9;font-size:clamp(14px,3.6vw,17px);line-height:1.8;margin-bottom:20px}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--red);color:#fff;border:0;border-radius:6px;
+  padding:13px 26px;font:700 15px 'Cairo',sans-serif;letter-spacing:1px;cursor:pointer;transition:.2s}
+.btn:hover{background:#ff1f2b;transform:translateY(-1px)}
+.btn.ghost{background:rgba(255,255,255,.14)}
+.btn.ghost:hover{background:rgba(255,255,255,.24)}
+
+/* ---------- Carousel ---------- */
+.section{padding:34px 0 20px}
+.sec-head{display:flex;align-items:center;gap:14px;padding:0 5vw;margin-bottom:18px}
+.sec-head h2{font-size:clamp(24px,5vw,32px);font-weight:900}
+.arrows{display:flex;gap:8px}
+.arrow{width:40px;height:40px;border-radius:8px;border:1.5px solid rgba(255,255,255,.7);background:transparent;color:#fff;
+  font-size:18px;cursor:pointer;transition:.2s}
+.arrow:hover{background:#fff;color:#000}
+.track{position:relative;display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:18px calc(50% - var(--card-w)/2) 30px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.track::-webkit-scrollbar{display:none}
+.card{flex:0 0 var(--card-w);aspect-ratio:4/5;position:relative;border-radius:14px;overflow:hidden;scroll-snap-align:center;
+  background:#15151a;transform:scale(.84);opacity:.55;transition:transform .35s ease,opacity .35s ease,box-shadow .35s ease;
+  box-shadow:0 10px 30px rgba(0,0,0,.6);cursor:pointer}
+.card.active{transform:scale(1);opacity:1;box-shadow:0 18px 50px rgba(229,9,20,.28)}
+.card img{position:absolute;inset:0;width:100%;height:100%}
+.card .blur{object-fit:cover;filter:blur(22px) brightness(.7);transform:scale(1.3)}
+.card .main{object-fit:contain}
+.card .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:16px;text-align:center;
+  font-weight:900;font-size:22px;background:linear-gradient(160deg,#2a0f14,#0d0d12)}
+.dots{display:flex;justify-content:center;gap:8px;margin-top:2px}
+.dot{width:8px;height:8px;border-radius:50%;background:#444;transition:.25s}
+.dot.on{background:var(--red);width:22px;border-radius:6px}
+
+/* ---------- Movie page ---------- */
+#movie{display:none;padding:90px 5vw 50px;max-width:1100px;margin:0 auto}
+.m-wrap{display:grid;gap:26px;align-items:center}
+.m-img{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/5;background:#15151a;box-shadow:0 20px 60px rgba(0,0,0,.7)}
+.m-img img{position:absolute;inset:0;width:100%;height:100%}
+.m-img .blur{object-fit:cover;filter:blur(26px) brightness(.7);transform:scale(1.3)}
+.m-img .main{object-fit:contain}
+.m-info h1{font-size:clamp(30px,7vw,52px);font-weight:900;line-height:1.2;margin:6px 0 12px}
+.m-info p{color:#cfcfd3;line-height:1.9;font-size:clamp(15px,3.8vw,18px);margin-bottom:22px}
+.m-actions{display:flex;gap:12px;flex-wrap:wrap}
+@media(min-width:820px){.m-wrap{grid-template-columns:1fr 1fr;gap:50px}}
+
+/* ---------- Footer ---------- */
+footer{margin-top:30px;padding:38px 5vw 50px;text-align:center;border-top:1px solid #1b1b1f;background:linear-gradient(0deg,#0a0a0c,#000)}
+footer .logo{display:block;margin-bottom:14px}
+.social{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;margin-bottom:18px}
+.social a{color:#ddd;font-weight:700;padding:8px 18px;border:1px solid #2a2a30;border-radius:30px;transition:.2s}
+.social a:hover{background:var(--red);border-color:var(--red);color:#fff}
+footer small{color:var(--muted)}
+
+/* ---------- Toast ---------- */
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,30px);background:#1c1c20;color:#fff;padding:12px 20px;
+  border-radius:10px;border:1px solid #333;font-size:14px;opacity:0;pointer-events:none;transition:.3s;z-index:99;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(min-width:900px){:root{--card-w:280px}.arrow{width:44px;height:44px}}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="#" class="logo">CINEMA <span>AI</span></a>
+  <nav><a href="#movies">Movies</a><a href="#follow">Follow</a></nav>
+</header>
+
+<!-- ================= HOME ================= -->
+<main id="home">
+  <section class="hero" id="hero">
+    <div class="bg" id="heroBg"></div>
+    <div class="hero-inner">
+      <img class="poster" id="heroImg" alt="">
+      <div class="content">
+        <span class="badge">AI ORIGINAL MOVIE</span>
+        <h1 id="heroTitle"></h1>
+        <p id="heroDesc"></p>
+        <a class="btn" id="heroBtn" href="#">▶ WATCH MOVIE</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="movies">
+    <div class="sec-head">
+      <h2>Movies</h2>
+      <div class="arrows">
+        <button class="arrow" id="prev" aria-label="Previous">←</button>
+        <button class="arrow" id="next" aria-label="Next">→</button>
+      </div>
+    </div>
+    <div class="track" id="track"></div>
+    <div class="dots" id="dots"></div>
+  </section>
+</main>
+
+<!-- ================= MOVIE PAGE ================= -->
+<main id="movie">
+  <a href="#movies" class="btn ghost" style="margin-bottom:22px">← Back</a>
+  <div class="m-wrap">
+    <div class="m-img" id="mImg"></div>
+    <div class="m-info">
+      <span class="badge">AI ORIGINAL MOVIE</span>
+      <h1 id="mTitle"></h1>
+      <p id="mDesc"></p>
+      <div class="m-actions">
+        <button class="btn" id="watchBtn">▶ WATCH MOVIE</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer id="follow">
+  <a href="#" class="logo">CINEMA <span>AI</span></a>
+  <div class="social">
+    <a id="sTiktok" target="_blank" rel="noopener">TikTok</a>
+    <a id="sFacebook" target="_blank" rel="noopener">Facebook</a>
+    <a id="sYoutube" target="_blank" rel="noopener">YouTube</a>
+  </div>
+  <small>© 2026 CINEMA AI. Original AI-generated entertainment.</small>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =====================================================
+   الإعدادات - هنا غادي نبدلو الروابط من بعد
+   ===================================================== */
+
+// روابط السوشيال (بدّلهم بالروابط الحقيقية ديالك)
+const SOCIAL = {
+  tiktok:   "#",
+  facebook: "#",
+  youtube:  "https://www.youtube.com/@cinema_ia001"
+};
+
+// الأفلام الخمسة
+// locker = رابط OGAds Locker الخاص بهاد الفيلم
+// (دابا كاع الأفلام كيستعملو نفس الـ Locker: 7jw27g)
+const MOVIES = [
+  { id:1, title:"الزوجة الثانية",      img:"poster1.jpg", locker:"https://trckapp.org/cl/i/7jw27g",
+    desc:"حكاية امرأة تواجه الخيانة والخذلان، وتكتشف أن القوة الحقيقية تبدأ من لحظة الانكسار." },
+  { id:2, title:"احتقروه لأنه فقير",   img:"poster2.jpg", locker:"https://trckapp.org/cl/i/7jw27g",
+    desc:"رجل بسيط يُهان بسبب فقره، ولا أحد يعلم الحقيقة التي ستقلب كل الموازين." },
+  { id:3, title:"الدفتر الأسود",       img:"poster3.jpg", locker:"https://trckapp.org/cl/i/7jw27g",
+    desc:"دفتر غامض تختبئ فيه أسرار قديمة، وكل من يفتحه يدفع الثمن." },
+  { id:4, title:"المليونير المتخفي",   img:"poster4.jpg", locker:"https://trckapp.org/cl/i/7jw27g",
+    desc:"رجل يخفي ثروته ويعيش بين الناس كواحد منهم ليكشف حقيقة من حوله." },
+  { id:5, title:"الأب القاسي",         img:"poster5.jpg", locker:"https://trckapp.org/cl/i/7jw27g",
+    desc:"قسوة أب تفرّق أسرته، وحقيقة مؤلمة تظهر بعد فوات الأوان." }
+];
+
+// الفيلم لي يبان ف الـ Banner الكبير (رقم الفيلم)
+const FEATURED_ID = 4;
+
+/* ===================================================== */
+
+const $ = s => document.querySelector(s);
+const byId = id => MOVIES.find(m => m.id === id);
+
+function toast(msg){
+  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toast._t); toast._t = setTimeout(()=>t.classList.remove("show"), 3200);
+}
+
+/* ---------- Social ---------- */
+$("#sTiktok").href = SOCIAL.tiktok;
+$("#sFacebook").href = SOCIAL.facebook;
+$("#sYoutube").href = SOCIAL.youtube;
+
+/* ---------- Hero ---------- */
+const feat = byId(FEATURED_ID);
+$("#heroBg").style.backgroundImage = `url('${feat.img}')`;
+$("#heroImg").src = feat.img;
+$("#heroImg").alt = feat.title;
+$("#heroTitle").textContent = feat.title;
+$("#heroDesc").textContent = feat.desc;
+$("#heroBtn").href = "#movie-" + feat.id;
+
+/* ---------- Cards ---------- */
+const track = $("#track"), dotsBox = $("#dots");
+MOVIES.forEach((m, i) => {
+  const a = document.createElement("a");
+  a.className = "card"; a.href = "#movie-" + m.id; a.draggable = false;
+  a.innerHTML = `<div class="ph">${m.title}</div>
+    <img class="blur" src="${m.img}" alt="" draggable="false" onerror="this.remove()">
+    <img class="main" src="${m.img}" alt="${m.title}" draggable="false" onerror="this.remove()">`;
+  track.appendChild(a);
+  const d = document.createElement("span"); d.className = "dot";
+  dotsBox.appendChild(d);
+});
+const cards = [...track.children], dots = [...dotsBox.children], N = cards.length;
+let current = 0;
+
+function updateActive(){
+  const center = track.scrollLeft + track.clientWidth / 2;
+  let best = 0, dist = Infinity;
+  cards.forEach((c, i) => {
+    const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - center);
+    if (d < dist){ dist = d; best = i; }
+  });
+  current = best;
+  cards.forEach((c, i) => c.classList.toggle("active", i === best));
+  dots.forEach((d, i) => d.classList.toggle("on", i === best));
+}
+function goTo(i){
+  i = (i + N) % N;
+  const c = cards[i];
+  track.scrollTo({ left: c.offsetLeft - (track.clientWidth - c.offsetWidth) / 2, behavior: "smooth" });
+}
+track.addEventListener("scroll", () => requestAnimationFrame(updateActive), { passive:true });
+window.addEventListener("resize", updateActive);
+$("#prev").onclick = () => { pauseAuto(); goTo(current - 1); };
+$("#next").onclick = () => { pauseAuto(); goTo(current + 1); };
+dots.forEach((d, i) => d.onclick = () => { pauseAuto(); goTo(i); });
+
+/* ---------- Auto swipe (مع إمكانية التحكم اليدوي) ---------- */
+let paused = false, resumeT;
+function pauseAuto(ms = 6000){
+  paused = true; clearTimeout(resumeT);
+  resumeT = setTimeout(() => paused = false, ms);
+}
+["touchstart","pointerdown","wheel"].forEach(ev => track.addEventListener(ev, () => pauseAuto(), { passive:true }));
+track.addEventListener("mouseenter", () => { paused = true; clearTimeout(resumeT); });
+track.addEventListener("mouseleave", () => pauseAuto(1500));
+setInterval(() => {
+  if (paused || document.hidden || $("#home").style.display === "none") return;
+  goTo(current + 1);
+}, 3200);
+
+/* ---------- Desktop: سحب بالفأرة ---------- */
+let down = false, sx = 0, sl = 0, moved = false;
+track.addEventListener("mousedown", e => { down = true; moved = false; sx = e.pageX; sl = track.scrollLeft; track.style.scrollSnapType = "none"; });
+window.addEventListener("mouseup", () => {
+  if (!down) return; down = false; track.style.scrollSnapType = "x mandatory"; goTo(current);
+});
+window.addEventListener("mousemove", e => {
+  if (!down) return; const dx = e.pageX - sx; if (Math.abs(dx) > 5) moved = true; track.scrollLeft = sl - dx;
+});
+track.addEventListener("click", e => { if (moved){ e.preventDefault(); moved = false; } }, true);
+
+/* ---------- صفحة الفيلم ---------- */
+let currentMovie = null;
+function showMovie(m){
+  currentMovie = m;
+  $("#mTitle").textContent = m.title;
+  $("#mDesc").textContent = m.desc;
+  $("#mImg").innerHTML = `<img class="blur" src="${m.img}" alt="" onerror="this.remove()">
+    <img class="main" src="${m.img}" alt="${m.title}" onerror="this.remove()">`;
+  document.title = m.title + " | CINEMA AI";
+}
+
+/* ---------- زر WATCH MOVIE + OGAds ----------
+   مهم: ما كنبعثوش الزائر للـ YouTube مباشرة.
+   الرابط الرسمي ديال OGAds Locker كيتحط ف locker ديال كل فيلم (ف الأعلى).
+   حتى يتعمر، الزر كيعطي رسالة وما كيدير والو. */
+$("#watchBtn").addEventListener("click", () => {
+  const m = currentMovie;
+  if (!m) return;
+  if (!m.locker){
+    toast("هاد الفيلم غادي يتوفر قريباً");
+    return;
+  }
+  window.location.href = m.locker;
+});
+
+/* ---------- Router بسيط ---------- */
+function route(){
+  const h = location.hash;
+  const match = h.match(/^#movie-(\d+)$/);
+  if (match && byId(+match[1])){
+    showMovie(byId(+match[1]));
+    $("#home").style.display = "none";
+    $("#movie").style.display = "block";
+    window.scrollTo(0, 0);
+  } else {
+    $("#movie").style.display = "none";
+    $("#home").style.display = "block";
+    document.title = "CINEMA AI";
+    if (h === "#movies") setTimeout(() => $("#movies").scrollIntoView(), 30);
+    setTimeout(updateActive, 50);
+  }
+}
+window.addEventListener("hashchange", route);
+route();
+// بداية الكاروسيل ف الفيلم الأول
+setTimeout(() => { goTo(0); updateActive(); }, 100);
+</script>
+</body>
+</html>
