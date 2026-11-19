@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090a0f">
+  <meta name="description" content="Discover AI-generated movies and series.">
+  <title>CINEMA AI — Movies & Series</title>
+  <style>
+    :root{--bg:#090a0f;--panel:#141722;--muted:#a6a9b5;--text:#f7f7fb;--accent:#e7b75b}
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+    a{color:inherit;text-decoration:none}
+    .wrap{width:min(1160px,92%);margin:auto}
+    header{position:sticky;top:0;z-index:10;background:#090a0feF;backdrop-filter:blur(14px);border-bottom:1px solid #ffffff12}
+    .nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{font-weight:900;letter-spacing:2px;font-size:20px}.brand span{color:var(--accent)}
+    nav{display:flex;gap:24px;color:#d2d3da;font-size:14px}
+    nav a:hover,.social a:hover{color:var(--accent)}
+    .hero{min-height:420px;margin:28px auto 48px;border-radius:22px;overflow:hidden;position:relative;
+      display:flex;align-items:end;padding:clamp(26px,6vw,64px);
+      background:linear-gradient(90deg,#080910 0%,#080910d9 42%,#08091020 100%),
+      radial-gradient(circle at 72% 30%,#a84f36 0,#48283d 25%,#171a2d 52%,#0b0c14 78%)}
+    .hero:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#090a0f 0%,transparent 45%);pointer-events:none}
+    .hero-content{position:relative;z-index:1;max-width:590px}
+    .eyebrow{color:var(--accent);font-size:12px;font-weight:bold;letter-spacing:3px;text-transform:uppercase}
+    h1{font-size:clamp(38px,7vw,68px);line-height:.98;margin:16px 0}
+    .hero p{color:#d0d1d8;line-height:1.7;max-width:510px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:#17130b;
+      font-weight:800;padding:13px 22px;border-radius:7px;margin-top:12px}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:0 0 20px}
+    h2{font-size:25px;margin:0}.section-head p{color:var(--muted);font-size:13px;margin:7px 0 0}
+    .filters{display:flex;gap:8px;margin:22px 0 24px;flex-wrap:wrap}
+    .filter{border:1px solid #ffffff22;color:#ddd;background:transparent;padding:9px 15px;border-radius:30px;cursor:pointer}
+    .filter.active,.filter:hover{background:var(--accent);color:#17130b;border-color:var(--accent)}
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+    .movie{min-width:0}.poster{height:280px;border-radius:13px;overflow:hidden;position:relative;display:flex;align-items:end;padding:17px;
+      background:linear-gradient(155deg,var(--c1),var(--c2) 55%,#10111a);isolation:isolate}
+    .poster:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 65% 25%,#ffffff40,transparent 35%),linear-gradient(0deg,#000b,transparent 65%);z-index:-1}
+    .poster:after{content:"";position:absolute;width:150px;height:210px;border:1px solid #ffffff30;border-radius:48% 48% 12% 12%;
+      right:15px;top:28px;transform:rotate(8deg);background:linear-gradient(135deg,#ffffff18,#00000020);z-index:-1}
+    .poster-label{font-size:11px;letter-spacing:2px;color:#ffffffb8;text-transform:uppercase}
+    .movie h3{font-size:17px;margin:13px 0 5px}.movie small{color:var(--muted)}
+    .watch{display:block;text-align:center;margin-top:12px;border:1px solid #ffffff30;padding:10px;border-radius:7px;font-size:13px;font-weight:bold}
+    .watch:hover{background:var(--accent);color:#17130b;border-color:var(--accent)}
+    .empty{display:none;color:var(--muted);padding:20px 0}
+    footer{margin-top:70px;padding:34px 0;border-top:1px solid #ffffff16;text-align:center;color:var(--muted)}
+    .social{display:flex;justify-content:center;gap:22px;margin:17px 0;color:#eee;font-size:14px}
+    footer p{font-size:12px}
+    @media(max-width:850px){.grid{grid-template-columns:repeat(3,1fr)}.poster{height:245px}}
+    @media(max-width:620px){.nav{height:62px}nav{gap:13px;font-size:12px}.brand{font-size:17px}.hero{min-height:370px;margin-top:18px}.grid{grid-template-columns:repeat(2,1fr);gap:14px}.poster{height:235px}h2{font-size:22px}}
+    @media(max-width:380px){.poster{height:195px}.movie h3{font-size:15px}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#"><span>CINEMA</span> AI</a>
+    <nav><a href="#movies">Movies</a><a href="#series">Series</a><a href="#social">Follow</a></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="hero-content">
+      <div class="eyebrow">AI generated stories</div>
+      <h1>Stories beyond<br>imagination.</h1>
+      <p>Discover original AI-created movies and series. Choose a title and watch the full story on our YouTube playlists.</p>
+      <a class="btn" href="#movies">Explore titles&nbsp; →</a>
+    </div>
+  </section>
+
+  <section id="movies">
+    <div class="section-head"><div><h2>Movies & Series</h2><p>Choose a story to explore.</p></div></div>
+    <div class="filters">
+      <button class="filter active" data-filter="all">All</button>
+      <button class="filter" data-filter="movie">Movies</button>
+      <button class="filter" data-filter="series">Series</button>
+    </div>
+    <div class="grid" id="catalog">
+      <article class="movie" data-type="series">
+        <div class="poster" style="--c1:#633c38;--c2:#171b2c"><span class="poster-label">AI original series</span></div>
+        <h3>الأب القاسي</h3><small>Drama • Series</small>
+        <a class="watch" href="#" data-playlist="ADD_YOUTUBE_PLAYLIST_URL_1">WATCH SERIES&nbsp; →</a>
+      </article>
+      <article class="movie" data-type="series">
+        <div class="poster" style="--c1:#6d314c;--c2:#171629"><span class="poster-label">AI original series</span></div>
+        <h3>الحب المستحيل</h3><small>Romance • Series</small>
+        <a class="watch" href="#" data-playlist="ADD_YOUTUBE_PLAYLIST_URL_2">WATCH SERIES&nbsp; →</a>
+      </article>
+      <article class="movie" data-type="series">
+        <div class="poster" style="--c1:#31545b;--c2:#151a2b"><span class="poster-label">AI original series</span></div>
+        <h3>أحلام وحنان</h3><small>Drama • Series</small>
+        <a class="watch" href="#" data-playlist="ADD_YOUTUBE_PLAYLIST_URL_3">WATCH SERIES&nbsp; →</a>
+      </article>
+      <article class="movie" data-type="movie">
+        <div class="poster" style="--c1:#785b31;--c2:#171722"><span class="poster-label">AI original movie</span></div>
+        <h3>New story</h3><small>Coming soon • Movie</small>
+        <a class="watch" href="#" data-playlist="ADD_YOUTUBE_PLAYLIST_URL_4">WATCH MOVIE&nbsp; →</a>
+      </article>
+    </div>
+    <p class="empty" id="empty">No titles in this category yet.</p>
+  </section>
+</main>
+
+<footer id="social">
+  <div class="wrap">
+    <div class="brand"><span>CINEMA</span> AI</div>
+    <div class="social">
+      <a href="ADD_TIKTOK_PROFILE_URL" target="_blank" rel="noopener">TikTok</a>
+      <a href="ADD_FACEBOOK_PAGE_URL" target="_blank" rel="noopener">Facebook</a>
+      <a href="ADD_YOUTUBE_CHANNEL_URL" target="_blank" rel="noopener">YouTube</a>
+    </div>
+    <p>© <span id="year"></span> CINEMA AI. Original AI-generated entertainment.</p>
+  </div>
+</footer>
+
+<script>
+  // Add your OGAds Content Locker URL here after creating it in your OGAds account.
+  // Leave empty during setup. Do not use an offer link as a locker URL.
+  const OGADS_LOCKER_URL = "";
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  document.querySelectorAll(".filter").forEach(button => {
+    button.addEventListener("click", () => {
+      document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
+      button.classList.add("active");
+      const category = button.dataset.filter;
+      let visible = 0;
+      document.querySelectorAll(".movie").forEach(card => {
+        const show = category === "all" || card.dataset.type === category;
+        card.style.display = show ? "" : "none";
+        if (show) visible++;
+      });
+      document.getElementById("empty").style.display = visible ? "none" : "block";
+    });
+  });
+
+  document.querySelectorAll(".watch").forEach(link => {
+    link.addEventListener("click", event => {
+      event.preventDefault();
+      const playlist = link.dataset.playlist;
+      if (!playlist || playlist.startsWith("ADD_")) {
+        alert("This playlist link has not been added yet.");
+        return;
+      }
+      if (OGADS_LOCKER_URL.trim()) {
+        // Configure the approved OGAds locker flow and post-lock destination in OGAds.
+        // This simple redirect is a placeholder; confirm your OGAds locker instructions first.
+        window.location.href = OGADS_LOCKER_URL;
+      } else {
+        window.open(playlist, "_blank", "noopener");
+      }
+    });
+  });
+</script>
+</body>
+</html>
